@@ -1,0 +1,8 @@
+# virtualenv
+venv/
+
+# env file
+.env
+
+# VSCode files
+.vscode/
