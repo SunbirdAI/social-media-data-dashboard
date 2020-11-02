@@ -4,7 +4,7 @@ import requests
 from dotenv import load_dotenv
 load_dotenv()
 
-def get_posts():
+def get_fb_posts():
     """
         Fetches Facebook posts from a given CrowdTangle list
         using the CrowdTangle API
@@ -31,4 +31,4 @@ def get_posts():
     return posts_df
 
 if __name__=='__main__':
-    get_posts()
+    get_fb_posts()

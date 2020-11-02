@@ -1,5 +1,8 @@
 import streamlit as st
-import numpy as np
-import pandas as pd
+from scripts import get_fb_posts
 
 st.title('Data Analysis Dashboard')
+
+if st.checkbox('Facebook'):
+    fb_posts = get_fb_posts()
+    st.write(fb_posts)
