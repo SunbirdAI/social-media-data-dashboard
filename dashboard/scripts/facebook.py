@@ -1,3 +1,8 @@
+"""
+Fetch posts and related stats from Facebook
+through the CrowdTangle API
+"""
+
 import os
 import pandas as pd
 import requests
@@ -8,7 +13,7 @@ load_dotenv()
 @st.cache
 def get_fb_posts():
     """
-        Fetches Facebook posts from a given CrowdTangle list
+        Fetch Facebook posts from a given CrowdTangle list
         using the CrowdTangle API
     """
     api_token = os.getenv('CROWDTANGLE_API_TOKEN')

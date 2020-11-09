@@ -1,5 +1,9 @@
+"""
+    Implement the main dashboard user interface
+"""
+
 import streamlit as st
-from dashboard_utils import display_facebook
+from dashboard_helper import display_facebook
 
 FACEBOOK = 'Facebook'
 TWITTER = 'Twitter'
