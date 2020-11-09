@@ -1,9 +1,11 @@
 import os
 import pandas as pd
 import requests
+import streamlit as st
 from dotenv import load_dotenv
 load_dotenv()
 
+@st.cache
 def get_fb_posts():
     """
         Fetches Facebook posts from a given CrowdTangle list
@@ -27,8 +29,24 @@ def get_fb_posts():
         print(f'GET /posts/ {resp.status_code}')
 
     data = resp.json()
-    posts_df = pd.json_normalize(data['result']['posts'])
-    return posts_df
+    df = pd.json_normalize(data['result']['posts'])
+    final_df = df
+
+    # pagination
+    while 'nextPage' in data['result']['pagination']:
+        next_page = data['result']['pagination']['nextPage']
+        print(f'Loading page ... {next_page}')
+        resp = requests.get(next_page)
+        if resp.status_code != 200:
+            print('GET /posts/ {}'.format(resp.status_code))
+            break
+        data = resp.json()
+        df = pd.json_normalize(data['result']['posts'])
+        inc_df = df
+        final_df = final_df.append(inc_df, ignore_index=True)
+        next_page = data['result']['pagination']['nextPage']
+
+    return final_df
 
 if __name__=='__main__':
     get_fb_posts()
