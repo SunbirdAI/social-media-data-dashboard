@@ -10,6 +10,7 @@ import streamlit as st
 from dotenv import load_dotenv
 load_dotenv()
 
+
 @st.cache
 def get_fb_posts():
     """
@@ -53,5 +54,6 @@ def get_fb_posts():
 
     return final_df
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     get_fb_posts()

@@ -1,10 +1,10 @@
 """
-Fetch data in through the scripts in the scripts folder,
-to be displayed on the dashboard
+Display graphs of the data
 """
 
 import streamlit as st
-from scripts import get_fb_posts
+from facebook.data.fetch_from_api import get_fb_posts
+
 
 def display_facebook():
     """

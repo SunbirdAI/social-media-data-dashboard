@@ -3,7 +3,7 @@
 """
 
 import streamlit as st
-from dashboard_helper import display_facebook
+from facebook.visualizations.graphs import display_facebook
 
 FACEBOOK = 'Facebook'
 TWITTER = 'Twitter'
