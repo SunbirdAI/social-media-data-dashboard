@@ -18,8 +18,8 @@ def get_fb_posts():
         using the CrowdTangle API
     """
     api_token = os.getenv('CROWDTANGLE_API_TOKEN')
-    group_list = os.getenv('GROUP_LIST_ID')
-    posts_url = os.getenv('POSTS_URL')
+    group_list = os.getenv('CROWDTANGLE_LIST_ID')
+    posts_url = os.getenv('CROWDTANGLE_POSTS_URL')
 
     params = {
         'token': api_token,
