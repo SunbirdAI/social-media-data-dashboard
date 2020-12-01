@@ -68,6 +68,29 @@ def covid_analysis(covid_df: pd.DataFrame):
     cv_analysis_expander.pyplot(covid_summary)
 
 
+def popular_tweets(df: pd.DataFrame):
+    """
+    :param df the pandas dataframe
+    Displays the top 5 tweets with the highest engagement
+    :return:
+    """
+    # TODO: Display embedded tweets if possible
+    pop_tweets = st.beta_expander("Popular Tweets and Likes distribution")
+    highest_engagement_tweets = graphs.highest_engagement_tweets(df)
+
+    df_to_display = pd.DataFrame({
+        'username': highest_engagement_tweets['username'],
+        'text': highest_engagement_tweets['text'],
+        'retweets': highest_engagement_tweets['retweet_count'],
+        'replies': highest_engagement_tweets['reply_count'],
+        'likes': highest_engagement_tweets['like_count'],
+        'engagement': highest_engagement_tweets['engagement']
+    })
+
+    pop_tweets.write("Highest engagement tweets:")
+    pop_tweets.write(df_to_display)
+
+
 def display_twitter(mode_title: str):
     """
     Displays the twitter specific UI elements
@@ -82,3 +105,4 @@ def display_twitter(mode_title: str):
     summary(df, mode)
     account_comparisons(df, mode)
     covid_analysis(covid_df)
+    popular_tweets(df)
