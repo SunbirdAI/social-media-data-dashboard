@@ -9,4 +9,9 @@ venv/
 
 # pycache
 __pycache__/
+
+# Data folder
 data/
+
+# Intellij Files
+.idea
