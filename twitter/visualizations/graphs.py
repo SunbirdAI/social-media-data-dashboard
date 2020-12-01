@@ -76,7 +76,6 @@ def compare_engagement(df: pd.DataFrame, mode="moh"):
 
 
 def summarise_covid_tweets(covid_df: pd.DataFrame, mode="moh"):
-    print(f"Number of COVID tweets: {covid_df.shape[0]}")
     fig, _ = plt.subplots(nrows=1, ncols=1, figsize=(12, 8))
     daily_covid = covid_df['tweet_id'].groupby([covid_df.index.date]).count()
     ax = daily_covid.plot(figsize=(12, 7))
