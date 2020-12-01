@@ -11,12 +11,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-@st.cache
-def get_fb_posts():
+# @st.cache
+def get_fb_posts(get_from_csv=False, create_csv=False):
     """
         Fetch Facebook posts from a given CrowdTangle list
         using the CrowdTangle API
     """
+
+    if get_from_csv:
+        df = pd.read_csv('facebook/data/sample_fb_data.csv')
+        return df
+
     api_token = os.getenv('CROWDTANGLE_API_TOKEN')
     group_list = os.getenv('CROWDTANGLE_LIST_ID')
     posts_url = os.getenv('CROWDTANGLE_POSTS_URL')
@@ -52,8 +57,12 @@ def get_fb_posts():
         final_df = final_df.append(inc_df, ignore_index=True)
         next_page = data['result']['pagination']['nextPage']
 
+    if create_csv:
+        final_df.to_csv('facebook/data/sample_fb_data.csv')
+
     return final_df
 
 
 if __name__ == '__main__':
-    get_fb_posts()
+    get_fb_posts(create_csv=True)
+
