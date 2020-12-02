@@ -13,22 +13,29 @@ def display_facebook():
         Display Facebook posts data
     """
     posts = process_posts()
-    st.header("Facebook posts")
     st.subheader("Likes")
     display_likes_graph(posts)
     st.subheader("Total Interactions")
     display_total_interactions_graph(posts)
 
 def display_likes_graph(posts):
-    fig, ax = plt.subplots()
-    ax.plot(posts["date"], posts["statistics.actual.likeCount"])
-    ax.set(title="Likes on MOH Facebook posts")
-    ax.set(ylabel="Likes")
-    st.pyplot(fig)
+    line_graph(
+        posts["date"], posts["statistics.actual.likeCount"],
+        "Likes on MOH Facebook posts",
+        "Likes"
+    )
 
 def display_total_interactions_graph(posts):
-    fig, ax = plt.subplots()
-    ax.plot(posts["date"], posts["total_interactions"])
-    ax.set(title="Total interactions on MOH Facebook posts")
-    ax.set(ylabel="Total interactions")
+    line_graph(
+        posts["date"], posts["total_interactions"],
+        "Total interactions on MOH Facebook posts",
+        "Total interactions"
+    )
+
+def line_graph(x, y, title, ylabel):
+    fig, ax = plt.subplots(figsize=(5,3))
+    ax.plot(x, y)
+    ax.set(title=title)
+    ax.set(ylabel=ylabel)
     st.pyplot(fig)
+
