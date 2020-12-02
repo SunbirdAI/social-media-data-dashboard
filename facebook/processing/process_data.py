@@ -5,7 +5,9 @@ def process_posts(metric="likes"):
     posts = get_fb_posts(get_from_csv=True) # fetch posts from dummy file for now
     posts.sort_values(by='date', inplace=True)
     posts['date'] = posts['date'].astype('datetime64')
-    posts['date'] = posts['date'].dt.strftime('%b %d %Y')
+    posts['date'] = posts['date'].dt.strftime('%b %d')
+    posts = calculate_total_interactions(posts)
+    
     return posts
 
 def calculate_total_interactions(posts):
