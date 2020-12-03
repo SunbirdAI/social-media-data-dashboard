@@ -7,8 +7,13 @@ def process_posts(metric="likes"):
     posts['date'] = posts['date'].astype('datetime64')
     posts['date'] = posts['date'].dt.strftime('%b %d')
     posts = calculate_total_interactions(posts)
+    top_posts = highest_performing_posts(posts)
+    summary = generate_summary(posts)
     
-    return posts
+    return posts, top_posts, summary
+
+def generate_summary(posts):
+    return f"Number of posts: {len(posts)}"
 
 def calculate_total_interactions(posts):
     posts['total_interactions'] = posts['statistics.actual.likeCount'] 
@@ -23,6 +28,12 @@ def calculate_total_interactions(posts):
     + posts['statistics.actual.careCount']
 
     return posts
+
+def highest_performing_posts(posts):
+    top_posts = posts.sort_values(by='total_interactions', ascending=False)
+    top_posts.reset_index(drop=True,inplace=True)
+    return top_posts.head(2)
+
 
 
 

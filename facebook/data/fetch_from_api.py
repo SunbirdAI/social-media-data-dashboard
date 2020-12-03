@@ -19,7 +19,7 @@ def get_fb_posts(get_from_csv=False, create_csv=False):
     """
 
     if get_from_csv:
-        df = pd.read_csv('facebook/data/sample_fb_data.csv')
+        df = pd.read_csv('data/sample_fb_data.csv', index_col=[0])
         return df
 
     api_token = os.getenv('CROWDTANGLE_API_TOKEN')
@@ -58,7 +58,7 @@ def get_fb_posts(get_from_csv=False, create_csv=False):
         next_page = data['result']['pagination']['nextPage']
 
     if create_csv:
-        final_df.to_csv('facebook/data/sample_fb_data.csv')
+        final_df.to_csv('data/sample_fb_data.csv')
 
     return final_df
 

@@ -14,7 +14,6 @@ MODES = ['Ministry of Health', 'KCCA', 'Influencers', 'Engagers']
 
 st.set_page_config(layout='wide')
 st.sidebar.title("SunbirdAI Social Media Data Analysis Dashboard")
-# st.title('Data Analysis Dashboard')
 
 platform = st.sidebar.selectbox(
     'Choose a platform', [FACEBOOK, TWITTER])
