@@ -3,16 +3,14 @@ Fetch posts and related stats from Facebook
 through the CrowdTangle API
 """
 
-import os
 import pandas as pd
 import requests
 import streamlit as st
-from dotenv import load_dotenv
-load_dotenv()
+from facebook.data.utils import load_env_vars
 
 
 # @st.cache
-def get_fb_posts(get_from_csv=False, create_csv=False):
+def get_fb_posts(start_date, end_date, mode, get_from_csv=False, create_csv=False):
     """
         Fetch Facebook posts from a given CrowdTangle list
         using the CrowdTangle API
@@ -22,15 +20,17 @@ def get_fb_posts(get_from_csv=False, create_csv=False):
         df = pd.read_csv('data/sample_fb_data.csv', index_col=[0])
         return df
 
-    api_token = os.getenv('CROWDTANGLE_API_TOKEN')
-    group_list = os.getenv('CROWDTANGLE_LIST_ID')
-    posts_url = os.getenv('CROWDTANGLE_POSTS_URL')
+    # temporary solution for mode not matching with
+    # its related env variable name
+    if mode == 'Ministry of Health': mode = 'MOH'
+
+    api_token, list_id, posts_url = load_env_vars(mode)
 
     params = {
         'token': api_token,
-        'listIds': group_list,
-        'startDate': '2020-10-24',
-        'endDate': '2020-10-31',
+        'listIds': list_id,
+        'startDate': start_date,
+        'endDate': end_date,
         'sortBy': 'date',
         'count': 99
     }
@@ -64,5 +64,8 @@ def get_fb_posts(get_from_csv=False, create_csv=False):
 
 
 if __name__ == '__main__':
-    get_fb_posts(create_csv=True)
+    start_date='2020-11-30'
+    end_date='2020-12-5'
+    mode="MOH"
+    get_fb_posts(start_date, end_date, mode, create_csv=True)
 

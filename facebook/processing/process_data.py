@@ -1,7 +1,7 @@
 from facebook.data.fetch_from_api import get_fb_posts
 
 
-def process_posts(metric="likes"):
+def process_posts(start_date, end_date, mode):
     """
         Call the function that fetches posts from the API
         and do some preliminary processing on them
@@ -10,7 +10,7 @@ def process_posts(metric="likes"):
     # posts = get_fb_posts(get_from_csv=True) 
 
     # fetch posts from API
-    posts = get_fb_posts()
+    posts = get_fb_posts(start_date, end_date, mode)
 
     posts.sort_values(by='date', inplace=True)
     posts['date'] = posts['date'].astype('datetime64')
