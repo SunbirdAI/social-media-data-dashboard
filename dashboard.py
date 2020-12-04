@@ -30,10 +30,11 @@ st.markdown(f"<h1 style='text-align: center;'>{platform} Analysis for {mode}</h1
 st.write('*Select a time period for the analysis*')
 start, end = st.beta_columns(2)
 start_date = start.date_input("Start date", datetime.date(2020, 11, 30))
-end_date = end.date_input("End date", datetime.date(2020, 11, 30))
+end_date = end.date_input("End date", datetime.date.today())
 
 
 if platform == FACEBOOK:
-    display_facebook()
+    display_facebook(start_date, end_date, mode)
 elif platform == TWITTER:
     display_twitter(mode)
+
