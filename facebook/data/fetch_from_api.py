@@ -6,7 +6,7 @@ through the CrowdTangle API
 import pandas as pd
 import requests
 import streamlit as st
-from facebook.data.utils import load_env_vars
+from facebook.data.api_utils import load_env_vars
 
 
 # @st.cache
