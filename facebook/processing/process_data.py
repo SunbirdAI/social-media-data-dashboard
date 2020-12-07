@@ -25,16 +25,19 @@ def calculate_total_interactions(posts):
         Calculate total interactions on posts by adding
         up all interactions
     """
-    posts['total_interactions'] = posts['statistics.actual.likeCount'] 
-    + posts['statistics.actual.shareCount']
-    + posts['statistics.actual.commentCount']
-    + posts['statistics.actual.loveCount']
-    + posts['statistics.actual.wowCount']
-    + posts['statistics.actual.hahaCount']
-    + posts['statistics.actual.sadCount']
-    + posts['statistics.actual.angryCount']
-    + posts['statistics.actual.thankfulCount']
-    + posts['statistics.actual.careCount']
+    cols_to_sum = [
+        "statistics.actual.likeCount", 
+        "statistics.actual.shareCount",
+        "statistics.actual.commentCount",
+        "statistics.actual.loveCount",
+        "statistics.actual.wowCount",
+        "statistics.actual.hahaCount",
+        "statistics.actual.sadCount",
+        "statistics.actual.angryCount",
+        "statistics.actual.thankfulCount",
+        "statistics.actual.careCount"
+    ]
+    posts["total_interactions"] = posts[cols_to_sum].agg("sum", axis=1)
 
     return posts
 

@@ -22,7 +22,8 @@ def display_facebook(start_date, end_date, mode):
             st.subheader("Likes")
             display_likes_graph(posts)
     with st.beta_expander("Top posts for this time period"):
-        st.markdown("*Note:* _Top posts are ranked by total interactions_")
+        st.markdown("""*Note:* _Top posts are ranked by total interactions 
+                    (sum of likes, comments, shares and all other reactions)_""")
         post1, post2 = st.beta_columns(2)
         with post1:
             display_post(top_posts, "Top post 1", 0)
