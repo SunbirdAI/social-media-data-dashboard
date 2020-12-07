@@ -37,4 +37,3 @@ if platform == FACEBOOK:
     display_facebook(start_date, end_date, mode)
 elif platform == TWITTER:
     display_twitter(mode)
-

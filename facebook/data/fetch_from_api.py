@@ -63,9 +63,9 @@ def get_fb_posts(start_date, end_date, mode, get_from_csv=False, create_csv=Fals
     return final_df
 
 
-if __name__ == '__main__':
-    start_date='2020-11-30'
-    end_date='2020-12-5'
+if __name__ == "__main__":
+    start_date="2020-11-30"
+    end_date="2020-12-5"
     mode="MOH"
     get_fb_posts(start_date, end_date, mode, create_csv=True)
 

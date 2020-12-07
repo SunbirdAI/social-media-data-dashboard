@@ -17,8 +17,8 @@ def load_env_vars(mode="MOH"):
 
         
     """
-    api_token = os.getenv('CROWDTANGLE_API_TOKEN')
-    posts_url = os.getenv('CROWDTANGLE_POSTS_URL')
-    list_id = os.getenv(f'CROWDTANGLE_{mode}_LIST_ID')
+    api_token = os.getenv("CROWDTANGLE_API_TOKEN")
+    posts_url = os.getenv("CROWDTANGLE_POSTS_URL")
+    list_id = os.getenv(f"CROWDTANGLE_{mode}_LIST_ID")
 
     return (api_token, list_id, posts_url)
