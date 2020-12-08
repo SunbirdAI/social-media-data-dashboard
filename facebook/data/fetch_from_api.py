@@ -8,23 +8,6 @@ import requests
 import streamlit as st
 from facebook.data.api_utils import load_env_vars
 
-def rename_df_columns(df):
-    keep_columns = [
-        'id', 'platform', 'date', 'type', 'message', 'link',
-        'statistics.actual.likeCount', 'statistics.actual.shareCount',
-        'statistics.actual.loveCount', 'statistics.actual.wowCount',
-        'statistics.actual.hahaCount', 'statistics.actual.sadCount',
-        'statistics.actual.angryCount', 'statistics.actual.thankfulCount',
-        'statistics.actual.careCount'
-    ]
-    new_columns = [
-        'id', 'platform','date','type', 'message', 'link',
-        'like', 'share', 'love', 'wow', 'haha',
-        'sad', 'angry', 'thankful', 'care'
-    ]
-    renamed_df = df[keep_columns].fillna(0)
-    renamed_df.columns = new_columns
-    return renamed_df
 
 # @st.cache
 def get_fb_posts(start_date, end_date, mode, get_from_csv=False, create_csv=False):
@@ -91,7 +74,7 @@ def get_fb_posts(start_date, end_date, mode, get_from_csv=False, create_csv=Fals
         next_page = data['result']['pagination']['nextPage']
 
     if create_csv:
-        final_df.to_csv('data/sample_fb_data_2.csv')
+        final_df.to_csv('data/sample_fb_data.csv')
 
     return final_df
 
