@@ -48,7 +48,7 @@ def display_post(top_posts, header, position):
     st.markdown(display_link, unsafe_allow_html=True)
 
     total_int = top_posts.at[position, "total_interactions"]
-    likes = top_posts.at[position, "statistics.actual.likeCount"]
+    likes = top_posts.at[position, "like"]
     date = top_posts.at[position, "date"]
 
     st.markdown(
@@ -76,7 +76,7 @@ def display_post(top_posts, header, position):
 
 def display_likes_graph(posts):
     line_graph(
-        posts["date"], posts["statistics.actual.likeCount"],
+        posts["date"], posts["like"],
         "Likes on MOH Facebook posts",
         "Likes"
     )
