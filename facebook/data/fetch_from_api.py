@@ -8,6 +8,23 @@ import requests
 import streamlit as st
 from facebook.data.api_utils import load_env_vars
 
+def rename_df_columns(df):
+    keep_columns = [
+        'id', 'platform', 'date', 'type', 'message', 'link',
+        'statistics.actual.likeCount', 'statistics.actual.shareCount',
+        'statistics.actual.loveCount', 'statistics.actual.wowCount',
+        'statistics.actual.hahaCount', 'statistics.actual.sadCount',
+        'statistics.actual.angryCount', 'statistics.actual.thankfulCount',
+        'statistics.actual.careCount'
+    ]
+    new_columns = [
+        'id', 'platform','date','type', 'message', 'link',
+        'like', 'share', 'love', 'wow', 'haha',
+        'sad', 'angry', 'thankful', 'care'
+    ]
+    renamed_df = df[keep_columns].fillna(0)
+    renamed_df.columns = new_columns
+    return renamed_df
 
 # @st.cache
 def get_fb_posts(start_date, end_date, mode, get_from_csv=False, create_csv=False):
@@ -35,13 +52,28 @@ def get_fb_posts(start_date, end_date, mode, get_from_csv=False, create_csv=Fals
         'count': 99
     }
 
+    keep_columns = [
+        'id', 'platform', 'date', 'type', 'message', 'link',
+        'statistics.actual.likeCount', 'statistics.actual.shareCount',
+        'statistics.actual.loveCount', 'statistics.actual.wowCount',
+        'statistics.actual.hahaCount', 'statistics.actual.sadCount',
+        'statistics.actual.angryCount', 'statistics.actual.thankfulCount',
+        'statistics.actual.careCount'
+    ]
+    new_columns = [
+        'id', 'platform','date','type', 'message', 'link',
+        'like', 'share', 'love', 'wow', 'haha',
+        'sad', 'angry', 'thankful', 'care'
+    ]
+
     resp = requests.get(posts_url, params=params)
     if resp.status_code != 200:
         print(f'GET /posts/ {resp.status_code}')
 
     data = resp.json()
     df = pd.json_normalize(data['result']['posts'])
-    final_df = df
+    final_df = df[keep_columns].fillna(0)
+    final_df.columns = new_columns
 
     # pagination
     while 'nextPage' in data['result']['pagination']:
@@ -53,12 +85,13 @@ def get_fb_posts(start_date, end_date, mode, get_from_csv=False, create_csv=Fals
             break
         data = resp.json()
         df = pd.json_normalize(data['result']['posts'])
-        inc_df = df
+        inc_df = df[keep_columns].fillna(0)
+        inc_df.columns = new_columns
         final_df = final_df.append(inc_df, ignore_index=True)
         next_page = data['result']['pagination']['nextPage']
 
     if create_csv:
-        final_df.to_csv('data/sample_fb_data.csv')
+        final_df.to_csv('data/sample_fb_data_2.csv')
 
     return final_df
 
