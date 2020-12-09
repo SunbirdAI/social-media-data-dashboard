@@ -41,12 +41,12 @@ def get_fb_posts(start_date, end_date, mode, get_from_csv=False, create_csv=Fals
         'statistics.actual.loveCount', 'statistics.actual.wowCount',
         'statistics.actual.hahaCount', 'statistics.actual.sadCount',
         'statistics.actual.angryCount', 'statistics.actual.thankfulCount',
-        'statistics.actual.careCount'
+        'statistics.actual.careCount', 'statistics.actual.commentCount'
     ]
     new_columns = [
         'id', 'platform','date','type', 'message', 'link',
         'like', 'share', 'love', 'wow', 'haha',
-        'sad', 'angry', 'thankful', 'care'
+        'sad', 'angry', 'thankful', 'care', 'comment'
     ]
 
     resp = requests.get(posts_url, params=params)
