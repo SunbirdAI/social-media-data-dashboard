@@ -17,13 +17,16 @@ def display_facebook(start_date, end_date, mode):
     posts = process_posts(start_date, end_date, mode)
     summary(len(posts))
 
-    with st.beta_expander("Graphs of likes and total interactions"):
+    with st.beta_expander("Graphs of likes and total interactions per day"):
+        st.markdown("""_Total interactions = sum of all reactions
+            (like, comment, share, love, wow, haha, care, 
+            thankful, sad, angry_)
+        """)
         grouped_posts = group_post_metrics_by_date(posts)
         line_graph(grouped_posts)
 
     with st.beta_expander("Top posts for this time period"):
-        st.markdown("""*Note:* _Top posts are ranked by total interactions 
-                    (sum of likes, comments, shares and all other reactions)_""")
+        st.markdown("""_Top posts are ranked by total interactions_""")
         top_posts = highest_performing_posts(posts)
         post1, post2 = st.beta_columns(2)
         with post1:
@@ -51,13 +54,17 @@ def display_post(top_posts, header, position):
     total_int = top_posts.at[position, "total_interactions"]
     likes = top_posts.at[position, "like"]
     date = top_posts.at[position, "date"]
+    comments = top_posts.at[position, "comment"]
 
     st.markdown(
         f"""<div style='margin: 1 rem; padding: 1rem;
             border: 1px solid #eee; border-radius: 1%;'>
                 <div><strong>Total interactions</strong>: {total_int}</div>
                 <div><strong>Likes</strong>: {likes}</div>
-                <div><strong>Date</strong>: {date}</div>
+                <div><strong>Comments</strong>: {comments}</div>
+                <div style='padding-top: 1rem;'>
+                    <strong>Date</strong>: {date}
+                </div>
             </div>
         """,
         unsafe_allow_html=True
