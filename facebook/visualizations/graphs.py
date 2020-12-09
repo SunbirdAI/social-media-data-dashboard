@@ -3,27 +3,32 @@ Display graphs of the data
 """
 
 import streamlit as st
-import matplotlib.pyplot as plt
-from facebook.processing.process_data import process_posts
+import altair as alt
+from facebook.processing.process_data import (
+    process_posts,
+    highest_performing_posts,
+    group_post_metrics_by_date
+)
 
 
 def display_facebook(start_date, end_date, mode):
     """
         Display Facebook posts data
     """
-    posts, top_posts = process_posts(start_date, end_date, mode)
+    posts = process_posts(start_date, end_date, mode)
     summary(len(posts))
+
     with st.beta_expander("Graphs of likes and total interactions"):
-        col1, col2 = st.beta_columns(2)
-        with col1:
-            st.subheader("Total Interactions")
-            display_total_interactions_graph(posts)
-        with col2:
-            st.subheader("Likes")
-            display_likes_graph(posts)
+        total_interactions, likes = group_post_metrics_by_date(posts)
+        st.subheader("Total Interactions")
+        line_graph(total_interactions)
+        st.subheader("Likes")
+        line_graph(likes)
+
     with st.beta_expander("Top posts for this time period"):
         st.markdown("""*Note:* _Top posts are ranked by total interactions 
                     (sum of likes, comments, shares and all other reactions)_""")
+        top_posts = highest_performing_posts(posts)
         post1, post2 = st.beta_columns(2)
         with post1:
             display_post(top_posts, "Top post 1", 0)
@@ -73,25 +78,7 @@ def display_post(top_posts, header, position):
         unsafe_allow_html=True
     )
 
+def line_graph(data):
+    st.line_chart(data)
 
-def display_likes_graph(posts):
-    line_graph(
-        posts["date"], posts["like"],
-        "Likes on MOH Facebook posts",
-        "Likes"
-    )
-
-def display_total_interactions_graph(posts):
-    line_graph(
-        posts["date"], posts["total_interactions"],
-        "Total interactions on MOH Facebook posts",
-        "Total interactions"
-    )
-
-def line_graph(x, y, title, ylabel):
-    fig, ax = plt.subplots()
-    ax.plot(x, y)
-    ax.set(title=title)
-    ax.set(ylabel=ylabel)
-    st.pyplot(fig)
 

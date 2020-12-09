@@ -16,9 +16,8 @@ def process_posts(start_date, end_date, mode):
     posts['date'] = posts['date'].astype('datetime64')
     posts['date'] = posts['date'].dt.strftime('%b %d')
     posts = calculate_total_interactions(posts)
-    top_posts = highest_performing_posts(posts)
     
-    return posts, top_posts
+    return posts
 
 def calculate_total_interactions(posts):
     """
@@ -40,8 +39,19 @@ def highest_performing_posts(posts):
         total interactions
     """
     top_posts = posts.sort_values(by='total_interactions', ascending=False)
-    top_posts.reset_index(drop=True,inplace=True)
+    top_posts.reset_index(drop=True, inplace=True)
     return top_posts.head(2)
+
+def group_post_metrics_by_date(posts):
+    posts_gb_total_int = posts.groupby(by='date', as_index=True).agg(
+        {"total_interactions": "sum"}
+    )
+    posts_gb_likes = posts.groupby(by='date', as_index=True).agg(
+        {"like": "sum"}
+    )
+
+    return posts_gb_total_int, posts_gb_likes
+
 
 
 
