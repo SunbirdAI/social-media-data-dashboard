@@ -49,8 +49,13 @@ def group_post_metrics_by_date(posts):
     posts_gb_likes = posts.groupby(by='date', as_index=True).agg(
         {"like": "sum"}
     )
+    posts = posts_gb_total_int.merge(
+        posts_gb_likes,
+        left_index=True,
+        right_index=True
+    )
 
-    return posts_gb_total_int, posts_gb_likes
+    return posts
 
 
 
