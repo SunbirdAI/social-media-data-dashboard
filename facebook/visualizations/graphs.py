@@ -10,7 +10,6 @@ from facebook.processing.process_data import (
     group_post_metrics_by_date
 )
 
-
 def display_facebook(start_date, end_date, mode):
     """
         Display Facebook posts data
@@ -19,11 +18,8 @@ def display_facebook(start_date, end_date, mode):
     summary(len(posts))
 
     with st.beta_expander("Graphs of likes and total interactions"):
-        total_interactions, likes = group_post_metrics_by_date(posts)
-        st.subheader("Total Interactions")
-        line_graph(total_interactions)
-        st.subheader("Likes")
-        line_graph(likes)
+        grouped_posts = group_post_metrics_by_date(posts)
+        line_graph(grouped_posts)
 
     with st.beta_expander("Top posts for this time period"):
         st.markdown("""*Note:* _Top posts are ranked by total interactions 
@@ -79,6 +75,9 @@ def display_post(top_posts, header, position):
     )
 
 def line_graph(data):
-    st.line_chart(data)
-
+    st.line_chart(
+        data,
+        height=500,
+        use_container_width=True
+    )
 
