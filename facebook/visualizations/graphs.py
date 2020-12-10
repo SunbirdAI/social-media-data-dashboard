@@ -26,13 +26,28 @@ def display_facebook(start_date, end_date, mode):
         line_graph(grouped_posts)
 
     with st.beta_expander("Top posts for this time period"):
-        st.markdown("""_Top posts are ranked by total interactions_""")
-        top_posts = highest_performing_posts(posts)
+        metric  = st.radio(
+            "Choose a metric for displaying top posts:",
+            (
+                "total interactions", "like",
+                "comment", "share", "angry"
+            )
+        )
+        top_posts = highest_performing_posts(posts, metric)
+        st.markdown(
+            f"""<div style='padding-top: 1rem;'>
+                <strong>
+                    Showing top posts by the <em>{metric}</em> metric:
+                </strong>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
         post1, post2 = st.beta_columns(2)
         with post1:
-            display_post(top_posts, "Top post 1", 0)
+            display_post(top_posts, metric, "Highest", 0)
         with post2:
-            display_post(top_posts, "Top post 2", 1)
+            display_post(top_posts, metric, "Second highest", 1)
 
 def summary(number_of_posts, accounts = None):
     st.write(f"Number of posts: {number_of_posts}")
@@ -43,25 +58,23 @@ def summary(number_of_posts, accounts = None):
         """
     )
 
-def display_post(top_posts, header, position):
-    st.header(header)
+def display_post(top_posts, metric, subheader, position):
+    st.subheader(subheader)
 
     link = top_posts.at[position, "link"]
     display_link = f"[Link to post]({link})"
 
     st.markdown(display_link, unsafe_allow_html=True)
 
-    total_int = top_posts.at[position, "total_interactions"]
-    likes = top_posts.at[position, "like"]
     date = top_posts.at[position, "date"]
-    comments = top_posts.at[position, "comment"]
+    metric_info = top_posts.at[position, metric]
 
     st.markdown(
         f"""<div style='margin: 1 rem; padding: 1rem;
             border: 1px solid #eee; border-radius: 1%;'>
-                <div><strong>Total interactions</strong>: {total_int}</div>
-                <div><strong>Likes</strong>: {likes}</div>
-                <div><strong>Comments</strong>: {comments}</div>
+                <div><strong>{metric.title()} count</strong>: 
+                    {metric_info}
+                </div>
                 <div style='padding-top: 1rem;'>
                     <strong>Date</strong>: {date}
                 </div>
