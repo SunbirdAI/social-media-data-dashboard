@@ -29,22 +29,22 @@ def calculate_total_interactions(posts):
         'sad', 'angry', 'thankful', 'care', 'comment'
     ]
 
-    posts["total_interactions"] = posts[cols_to_sum].agg("sum", axis=1)
+    posts["total interactions"] = posts[cols_to_sum].agg("sum", axis=1)
 
     return posts
 
-def highest_performing_posts(posts):
+def highest_performing_posts(posts, metric="total interactions"):
     """
         Pick the two posts with the highest 
         total interactions
     """
-    top_posts = posts.sort_values(by='total_interactions', ascending=False)
+    top_posts = posts.sort_values(by=metric, ascending=False)
     top_posts.reset_index(drop=True, inplace=True)
     return top_posts.head(2)
 
 def group_post_metrics_by_date(posts):
     posts_gb_total_int = posts.groupby(by='date', as_index=True).agg(
-        {"total_interactions": "sum"}
+        {"total interactions": "sum"}
     )
     posts_gb_likes = posts.groupby(by='date', as_index=True).agg(
         {"like": "sum"}
