@@ -3,7 +3,9 @@ import pandas as pd
 
 import twitter.visualizations.graphs as graphs
 
-from twitter.processing.tweet_processing import get_tweets_from_json_file, create_pd_from_tweets, filter_covid_tweets
+from twitter.processing.tweet_processing import create_pd_from_tweets, filter_covid_tweets, create_tweet_for_df
+from twitter.data.fetch_from_api import fetch_tweets
+
 
 TITLE_TO_MODE = {
     'Ministry of Health': 'moh',
@@ -98,10 +100,11 @@ def display_twitter(mode_title: str):
     """
     # TODO: Move this setup to the processing module
     mode = TITLE_TO_MODE[mode_title]
-    tweets = get_tweets_from_json_file(mode)
+    _tweets = fetch_tweets(mode)[0]
+    # TODO: Do this in processing and extract usernames from the db
+    tweets = [create_tweet_for_df(tweet) for tweet in _tweets]
     df = create_pd_from_tweets(tweets)
     covid_df = filter_covid_tweets(df)
-
     summary(df, mode)
     account_comparisons(df, mode)
     covid_analysis(covid_df)

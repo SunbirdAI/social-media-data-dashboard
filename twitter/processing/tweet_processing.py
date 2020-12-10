@@ -32,20 +32,6 @@ def get_tweet_words(tweet_text: str) -> List[str]:
     return [word for word in tweet if word not in STOP_WORDS and len(word) > 3]
 
 
-def is_retweet(tweet: dict) -> bool:
-    if "referenced_tweets" in tweet:
-        ref_tweets = tweet['referenced_tweets']
-        for ref_t in ref_tweets:
-            if ref_t['type'] == 'retweeted':
-                return True
-    return False
-
-
-def filter_tweets(tweets: List[dict]) -> List[dict]:
-    """Filter out retweets and tweets whose username is numeric"""
-    return [tweet for tweet in tweets if not (is_retweet(tweet) or tweet['username'].isnumeric())]
-
-
 def process_tweet(tweet: dict) -> dict:
     """Process tweets from raw files"""
     username = tweet['username']
@@ -76,8 +62,7 @@ def process_tweet(tweet: dict) -> dict:
 
 
 def create_pd_from_tweets(tweets: List[dict]) -> pd.DataFrame:
-    filtered_tweets = filter_tweets(tweets)
-    df = pd.DataFrame([process_tweet(tweet) for tweet in filtered_tweets])
+    df = pd.DataFrame([process_tweet(tweet) for tweet in tweets])
     df.set_index('created_time', inplace=True)
     return df
 
@@ -96,3 +81,15 @@ def covid_non_covid(words: List[str]) -> str:
 def filter_covid_tweets(df: pd.DataFrame) -> pd.DataFrame:
     # TODO: Figure out why a call to this function doesn't work in the notebook
     return df[df['words'].apply(lambda t_words: is_covid_related_tweet(t_words))]
+
+
+def create_tweet_for_df(tweet):
+    # TODO: Get the actual username from the DB
+    user = tweet["author_id"]
+    df_tweet = {"username": user, "user_id": tweet["author_id"]}
+    fields = ["id", "text", "source", "created_at", "public_metrics",
+              "in_reply_to_user_id", "referenced_tweets", "labels"]
+    for field in fields:
+        if field in tweet:
+            df_tweet[field] = tweet[field]
+    return df_tweet
