@@ -34,3 +34,12 @@ def create_url_with_query(api_root, query):
     """
     tweet_fields = "tweet.fields=id,author_id,text,created_at,public_metrics&user.fields=name,username"
     return api_root + f"tweets/search/recent?query={query}&{tweet_fields}"
+
+
+def create_headers(bearer_token):
+    """
+    Creates the header to be sent along with the request to the api
+    :param bearer_token: the authentication token
+    :return: dictionary with authentication information
+    """
+    return {"Authorization": f"Bearer {bearer_token}"}
