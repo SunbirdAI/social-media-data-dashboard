@@ -66,6 +66,7 @@ def display_post(top_posts, metric, subheader, position):
 
     st.markdown(display_link, unsafe_allow_html=True)
 
+    post_type = top_posts.at[position, "type"]
     date = top_posts.at[position, "date"]
     metric_info = top_posts.at[position, metric]
 
@@ -76,7 +77,11 @@ def display_post(top_posts, metric, subheader, position):
                     {metric_info}
                 </div>
                 <div style='padding-top: 1rem;'>
-                    <strong>Date</strong>: {date}
+                    <p>
+                        <strong>Post type</strong>: 
+                        {post_type.title()}
+                    </p>
+                    <p><strong>Date</strong>: {date}</p>
                 </div>
             </div>
         """,
