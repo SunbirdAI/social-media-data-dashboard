@@ -7,7 +7,8 @@ import altair as alt
 from facebook.processing.process_data import (
     process_posts,
     highest_performing_posts,
-    group_post_metrics_by_date
+    calculate_total_interactions,
+    group_posts_by_date
 )
 
 def display_facebook(start_date, end_date, mode):
@@ -22,17 +23,19 @@ def display_facebook(start_date, end_date, mode):
             (like, comment, share, love, wow, haha, care, 
             thankful, sad, angry_)
         """)
-        grouped_posts = group_post_metrics_by_date(posts)
+        grouped_posts = group_posts_by_date(posts)
         line_graph(grouped_posts)
 
     with st.beta_expander("Top posts for this time period"):
         metric  = st.radio(
             "Choose a metric for displaying top posts:",
             (
-                "total interactions", "like",
-                "comment", "share", "angry"
+                "total interactions",
+                "like", "comment",
+                "share", "angry"
             )
         )
+        posts = calculate_total_interactions(posts)
         top_posts = highest_performing_posts(posts, metric)
         st.markdown(
             f"""<div style='padding-top: 1rem;'>
@@ -100,7 +103,7 @@ def display_post(top_posts, metric, subheader, position):
     )
 
 def line_graph(data):
-    st.line_chart(
+    st.area_chart(
         data,
         height=500,
         use_container_width=True
