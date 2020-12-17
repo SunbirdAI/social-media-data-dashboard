@@ -24,19 +24,20 @@ def display_facebook(start_date, end_date, mode):
             thankful, sad, angry_)
         """)
         grouped_posts = group_posts_by_date(posts)
-        line_graph(grouped_posts)
+        plot_graph(grouped_posts)
 
     with st.beta_expander("Top posts for this time period"):
         metric  = st.radio(
             "Choose a metric for displaying top posts:",
             (
-                "total interactions",
-                "like", "comment",
-                "share", "angry"
+                "total interactions", "like",
+                "comment", "share", "angry"
             )
         )
+
         posts = calculate_total_interactions(posts)
         top_posts = highest_performing_posts(posts, metric)
+
         st.markdown(
             f"""<div style='padding-top: 1rem;'>
                 <strong>
@@ -46,6 +47,7 @@ def display_facebook(start_date, end_date, mode):
             """,
             unsafe_allow_html=True
         )
+
         post1, post2 = st.beta_columns(2)
         with post1:
             display_post(top_posts, metric, "Highest", 0)
@@ -59,6 +61,13 @@ def summary(number_of_posts, accounts = None):
         Accounts
         - Ministry of Health Uganda
         """
+    )
+
+def plot_graph(data):
+    st.area_chart(
+        data,
+        height=500,
+        use_container_width=True
     )
 
 def display_post(top_posts, metric, subheader, position):
@@ -101,11 +110,3 @@ def display_post(top_posts, metric, subheader, position):
         """,
         unsafe_allow_html=True
     )
-
-def line_graph(data):
-    st.area_chart(
-        data,
-        height=500,
-        use_container_width=True
-    )
-
