@@ -4,7 +4,7 @@ import pandas as pd
 import twitter.visualizations.graphs as graphs
 
 from twitter.processing.tweet_processing import create_pd_from_tweets, filter_covid_tweets, create_tweet_for_df
-from twitter.data.fetch_from_api import fetch_tweets
+from twitter.data_layer.api.fetch_from_api import fetch_tweets
 
 
 TITLE_TO_MODE = {

@@ -1,6 +1,6 @@
 import requests
 
-from twitter.data.api_utils import load_env_vars, create_headers, create_url_with_query, create_query
+from twitter.data_layer.api.api_utils import load_env_vars, create_headers, create_url_with_query, create_query
 
 
 def connect_to_endpoint(url: str, headers: str):
