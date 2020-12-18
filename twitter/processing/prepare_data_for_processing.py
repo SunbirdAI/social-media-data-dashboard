@@ -12,10 +12,13 @@ from twitter.processing.tweet_processing import get_tweet_words, filter_covid_tw
 
 class AnalysisData:
 
-    def __init__(self, df: pd.DataFrame, covid_df: pd.DataFrame, users: List[User]):
+    def __init__(self, df: pd.DataFrame = None, covid_df: pd.DataFrame = None, users: List[User] = None,
+                 no_data=True, no_covid=True):
         self.df = df
         self.covid_df = covid_df
         self.users = users
+        self.no_data = no_data
+        self.no_covid = no_covid
 
 
 def create_analysis_data(from_date: date, to_date: date, mode='moh') -> AnalysisData:
@@ -32,10 +35,14 @@ def create_analysis_data(from_date: date, to_date: date, mode='moh') -> Analysis
         datetime(from_date.year, from_date.month, from_date.day),
         datetime(to_date.year, to_date.month, to_date.day)
     )
-    print(len(tweets))
-    df = create_pd_from_tweets(tweets)
-    covid_df = filter_covid_tweets(df)
-    return AnalysisData(df, covid_df, users)
+    if len(tweets) > 0:
+        df = create_pd_from_tweets(tweets)
+        covid_df = filter_covid_tweets(df)
+        if not covid_df.empty:
+            return AnalysisData(df, covid_df, users, False, False)
+        return AnalysisData(df, None, users, False, True)
+
+    return AnalysisData()
 
 
 def process_tweet(tweet: Tweet) -> dict:

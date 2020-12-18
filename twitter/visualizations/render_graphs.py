@@ -51,6 +51,9 @@ def covid_analysis(covid_df: pd.DataFrame):
     :param covid_df: the pandas dataframe
     """
     cv_analysis_expander = st.beta_expander("Covid Analysis")
+    if covid_df is None:
+        cv_analysis_expander.write("No covid data for these accounts in this time period")
+        return
     left, right = cv_analysis_expander.beta_columns(2)
 
     covid_tweet_dist = graphs.covid_tweets_by_user(covid_df)
@@ -99,7 +102,10 @@ def display_twitter(mode_title: str, from_date: datetime, to_date: datetime):
     """
     mode = TITLE_TO_MODE[mode_title]
     analysis_data = create_analysis_data(from_date, to_date, mode)
-    summary(analysis_data.df, analysis_data.users)
-    account_comparisons(analysis_data.df, mode)
-    covid_analysis(analysis_data.covid_df)
-    popular_tweets(analysis_data.df)
+    if analysis_data.no_data:
+        st.write("No data for this time period")
+    else:
+        summary(analysis_data.df, analysis_data.users)
+        account_comparisons(analysis_data.df, mode)
+        covid_analysis(analysis_data.covid_df)
+        popular_tweets(analysis_data.df)
