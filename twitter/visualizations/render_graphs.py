@@ -1,10 +1,13 @@
+from typing import List
+from datetime import datetime
+
 import streamlit as st
 import pandas as pd
 
 import twitter.visualizations.graphs as graphs
+from twitter.data_layer.database.models.user import User
 
-from twitter.processing.tweet_processing import create_pd_from_tweets, filter_covid_tweets, create_tweet_for_df
-from twitter.data_layer.api.fetch_from_api import fetch_tweets
+from twitter.processing.prepare_data_for_processing import create_analysis_data
 
 
 TITLE_TO_MODE = {
@@ -15,18 +18,12 @@ TITLE_TO_MODE = {
 }
 
 
-def summary(df: pd.DataFrame, mode: str):
+def summary(df: pd.DataFrame, users: List[User]):
     number_of_tweets = len(df.index)
     st.write(f"Number of tweets: {number_of_tweets}")
-    # TODO: Replace this list of users with a dynamically generated one based on the mode
-    st.write(
-        """
-        Accounts
-        - MinofHealthUG
-        - JaneRuth_Aceng
-        - WHOUganda
-        """
-    )
+    # TODO: Maybe use twitter embedding
+    accounts_string = "Accounts:\n\n- " + "\n- ".join([user.username for user in users])
+    st.write(accounts_string)
 
 
 def account_comparisons(df: pd.DataFrame, mode: str):
@@ -93,19 +90,16 @@ def popular_tweets(df: pd.DataFrame):
     pop_tweets.write(df_to_display)
 
 
-def display_twitter(mode_title: str):
+def display_twitter(mode_title: str, from_date: datetime, to_date: datetime):
     """
     Displays the twitter specific UI elements
     :param mode_title: the title of the mode
+    :param from_date: starting time for the analysis
+    :param to_date: ending time for the analysis
     """
-    # TODO: Move this setup to the processing module
     mode = TITLE_TO_MODE[mode_title]
-    _tweets = fetch_tweets(mode)[0]
-    # TODO: Do this in processing and extract usernames from the db
-    tweets = [create_tweet_for_df(tweet) for tweet in _tweets]
-    df = create_pd_from_tweets(tweets)
-    covid_df = filter_covid_tweets(df)
-    summary(df, mode)
-    account_comparisons(df, mode)
-    covid_analysis(covid_df)
-    popular_tweets(df)
+    analysis_data = create_analysis_data(from_date, to_date, mode)
+    summary(analysis_data.df, analysis_data.users)
+    account_comparisons(analysis_data.df, mode)
+    covid_analysis(analysis_data.covid_df)
+    popular_tweets(analysis_data.df)
