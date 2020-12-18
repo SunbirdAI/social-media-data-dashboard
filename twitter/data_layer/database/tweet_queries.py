@@ -13,5 +13,7 @@ session = Session()
 
 def get_tweets_by_mode_and_date(mode='moh', from_date=datetime(2000, 1, 1), to_date=datetime(2100, 1, 1)):
     return session.query(Tweet) \
-        .filter(Tweet.mode == mode and from_date < Tweet.created_time < to_date) \
+        .filter(Tweet.mode == mode) \
+        .filter(Tweet.created_time >= from_date) \
+        .filter(Tweet.created_time <= to_date) \
         .all()
