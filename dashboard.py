@@ -36,4 +36,4 @@ end_date = end.date_input("End date", datetime.date.today())
 if platform == FACEBOOK:
     display_facebook(start_date, end_date, mode)
 elif platform == TWITTER:
-    display_twitter(mode)
+    display_twitter(mode, start_date, end_date)

@@ -1,6 +1,5 @@
 import json
 import re
-import dateutil
 import pandas as pd
 
 from typing import List
@@ -32,41 +31,6 @@ def get_tweet_words(tweet_text: str) -> List[str]:
     return [word for word in tweet if word not in STOP_WORDS and len(word) > 3]
 
 
-def process_tweet(tweet: dict) -> dict:
-    """Process tweets from raw files"""
-    username = tweet['username']
-    user_id = tweet['user_id']
-    tweet_id = tweet['id']
-    created_time = dateutil.parser.parse(tweet['created_at']).replace(tzinfo=None)
-    text = tweet['text']
-    words = get_tweet_words(text)
-    retweet_count = tweet['public_metrics']['retweet_count']
-    reply_count = tweet['public_metrics']['reply_count']
-    quote_count = tweet['public_metrics']['quote_count']
-    like_count = tweet['public_metrics']['like_count']
-    engagement = retweet_count + reply_count + quote_count + like_count
-
-    return {
-        'username': username,
-        'user_id': user_id,
-        'tweet_id': tweet_id,
-        'created_time': created_time,
-        'text': text,
-        'words': words,
-        'retweet_count': retweet_count,
-        'reply_count': reply_count,
-        'quote_count': quote_count,
-        'like_count': like_count,
-        'engagement': engagement
-    }
-
-
-def create_pd_from_tweets(tweets: List[dict]) -> pd.DataFrame:
-    df = pd.DataFrame([process_tweet(tweet) for tweet in tweets])
-    df.set_index('created_time', inplace=True)
-    return df
-
-
 def is_covid_related_tweet(tweet_words: List[str]) -> bool:
     for word in COVID_WORDS:
         if word in tweet_words:
@@ -81,15 +45,3 @@ def covid_non_covid(words: List[str]) -> str:
 def filter_covid_tweets(df: pd.DataFrame) -> pd.DataFrame:
     # TODO: Figure out why a call to this function doesn't work in the notebook
     return df[df['words'].apply(lambda t_words: is_covid_related_tweet(t_words))]
-
-
-def create_tweet_for_df(tweet):
-    # TODO: Get the actual username from the DB
-    user = tweet["author_id"]
-    df_tweet = {"username": user, "user_id": tweet["author_id"]}
-    fields = ["id", "text", "source", "created_at", "public_metrics",
-              "in_reply_to_user_id", "referenced_tweets", "labels"]
-    for field in fields:
-        if field in tweet:
-            df_tweet[field] = tweet[field]
-    return df_tweet
