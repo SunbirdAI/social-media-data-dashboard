@@ -1,6 +1,7 @@
 import requests
 
 from twitter.data_layer.api.api_utils import load_env_vars, create_headers, create_url_with_query, create_query
+from twitter.data_layer.database.user_queries import get_users_by_mode
 
 
 def connect_to_endpoint(url: str, headers: str):
@@ -21,8 +22,8 @@ def fetch_tweets(mode="moh"):
     env_vars = load_env_vars()
     api_root = env_vars["api_root"]
     bearer_token = env_vars["token"]
-    # TODO: Get users from db when that's added
-    query = create_query(["MinofHealthUG", "JaneRuth_Aceng", "WHOUganda"])
+    users = [user.username for user in get_users_by_mode(mode)]
+    query = create_query(users)
     url = create_url_with_query(api_root, query)
     headers = create_headers(bearer_token)
 
