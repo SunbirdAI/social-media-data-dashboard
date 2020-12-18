@@ -9,13 +9,7 @@ from twitter.data_layer.database.models.user import User
 
 from twitter.processing.prepare_data_for_processing import create_analysis_data
 
-
-TITLE_TO_MODE = {
-    'Ministry of Health': 'moh',
-    'KCCA': 'kcca',
-    'Influencers': 'influencers',
-    'Engagers': 'engagers'
-}
+from constants import TITLE_TO_MODE
 
 
 def summary(df: pd.DataFrame, users: List[User]):
