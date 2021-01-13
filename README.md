@@ -9,8 +9,8 @@ The dashboard user interface looks like this:
 The dashboard is divided into two main parts: the `sidebar` on the left and the `main dashboard area` on the right.
 * Use the `sidebar` on the left to choose a platform and mode using the `Choose a platform` and `Choose a mode` dropdowns provided there.
 <br>**Definitions:**
-    * `Platform`: 
-    * `Mode`: 
+    * `Platform`: The social media platform to get data from (Facebook or Twitter)
+    * `Mode`: The account from which to get this data
 * On the `main dashboard area`:
     * Use the `Start date` and `End date` input fields to choose the date range for which to fetch and view posts. The number of posts fetched and accounts from which they are fetched will be displayed.
     * Use the dropdowns to view statistics and graphs for the given date range.
@@ -32,5 +32,5 @@ Data from Facebook is fetched through the CrowdTangle API. Below are the environ
 Variable | How it is used
 ------------ | -------------
 CROWDTANGLE_API_TOKEN | The API token from CrowdTangle that allows you to fetch data from their API
-CROWDTANGLE_*your-account*_LIST_ID | The Facebook account from which the posts will be fetched
+CROWDTANGLE_LIST_ID | The id of the CrowdTangle list from which the posts will be fetched
 CROWDTANGLE_POSTS_URL | The url for fetching posts. It is currently `https://api.crowdtangle.com/posts`
