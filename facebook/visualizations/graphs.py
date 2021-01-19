@@ -9,6 +9,7 @@ from facebook.processing.process_data import (
     highest_performing_posts,
     group_post_metrics_by_date
 )
+from facebook.processing.predictions import covid_stats
 
 def display_facebook(start_date, end_date, mode):
     """
@@ -48,6 +49,9 @@ def display_facebook(start_date, end_date, mode):
             display_post(top_posts, metric, "Highest", 0)
         with post2:
             display_post(top_posts, metric, "Second highest", 1)
+
+    with st.beta_expander("Covid posts"):
+        display_covid_stats(posts)
 
 def summary(number_of_posts, accounts = None):
     st.write(f"Number of posts: {number_of_posts}")
@@ -105,4 +109,10 @@ def line_graph(data):
         height=500,
         use_container_width=True
     )
+
+def display_covid_stats(posts):
+    stats = covid_stats(posts)
+    st.bar_chart(stats)
+
+
 
