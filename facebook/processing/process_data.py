@@ -59,5 +59,3 @@ def group_post_metrics_by_date(posts):
 
 
 
-
-
