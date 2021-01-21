@@ -7,10 +7,15 @@ def process_posts(start_date, end_date, mode):
         and do some preliminary processing on them
     """
     # fetch posts from dummy file when testing
-    # posts = get_fb_posts(get_from_csv=True) 
+    posts = get_fb_posts(
+        start_date=None,
+        end_date=None,
+        mode=None,
+        get_from_csv=True
+    )
 
     # fetch posts from API
-    posts = get_fb_posts(start_date, end_date, mode)
+    # posts = get_fb_posts(start_date, end_date, mode)
 
     posts.sort_values(by='date', inplace=True)
     posts['date'] = posts['date'].astype('datetime64')
