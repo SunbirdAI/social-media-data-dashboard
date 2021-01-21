@@ -112,7 +112,7 @@ def line_graph(data):
 
 def display_covid_stats(posts):
     stats = covid_stats(posts)
-    st.bar_chart(stats)
+    st.write(stats)
 
 
 
