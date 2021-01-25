@@ -2,6 +2,7 @@
 Display graphs of the data
 """
 
+import json
 import streamlit as st
 import altair as alt
 from facebook.processing.process_data import (
@@ -9,7 +10,7 @@ from facebook.processing.process_data import (
     highest_performing_posts,
     group_post_metrics_by_date
 )
-from facebook.processing.predictions import covid_stats
+from facebook.processing.predictions import covid_predictions
 
 def display_facebook(start_date, end_date, mode):
     """
@@ -51,7 +52,7 @@ def display_facebook(start_date, end_date, mode):
             display_post(top_posts, metric, "Second highest", 1)
 
     with st.beta_expander("Covid posts"):
-        display_covid_stats(posts)
+        display_covid_predictions(posts)
 
 def summary(number_of_posts, accounts = None):
     st.write(f"Number of posts: {number_of_posts}")
@@ -110,9 +111,12 @@ def line_graph(data):
         use_container_width=True
     )
 
-def display_covid_stats(posts):
-    stats = covid_stats(posts)
-    st.write(stats)
+def display_covid_predictions(posts):
+    with st.spinner('Loading predictions for COVID posts...'):
+        pred = covid_predictions(posts)
+        st.success('COVID posts')
+    st.write(json.dumps(pred))
+
 
 
 
