@@ -8,9 +8,9 @@ import altair as alt
 from facebook.processing.process_data import (
     process_posts,
     highest_performing_posts,
-    group_post_metrics_by_date
+    group_post_metrics_by_date,
+    process_covid_predicitions
 )
-from facebook.processing.predictions import covid_predictions
 
 def display_facebook(start_date, end_date, mode):
     """
@@ -113,9 +113,8 @@ def line_graph(data):
 
 def display_covid_predictions(posts):
     with st.spinner('Loading predictions for COVID posts...'):
-        pred = covid_predictions(posts)
-        st.success('COVID posts')
-    st.write(json.dumps(pred))
+        covid_predictions = process_covid_predicitions(posts)
+    st.write(covid_predictions)
 
 
 

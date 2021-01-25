@@ -1,4 +1,6 @@
+import pandas as pd
 from facebook.data.fetch_from_api import get_fb_posts
+from facebook.processing.predictions import covid_predictions
 
 
 def process_posts(start_date, end_date, mode):
@@ -61,6 +63,14 @@ def group_post_metrics_by_date(posts):
     )
 
     return posts
+
+def process_covid_predicitions(posts):
+    pred = covid_predictions(posts)
+    pred_df = pd.json_normalize(pred)
+    return pred_df
+
+
+
 
 
 
