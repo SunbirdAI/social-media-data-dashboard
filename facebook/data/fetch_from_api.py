@@ -5,12 +5,12 @@ through the CrowdTangle API
 
 import pandas as pd
 import requests
-import streamlit as st
 from facebook.data.api_utils import load_env_vars
 
 
 # @st.cache
-def get_fb_posts(start_date, end_date, mode, get_from_csv=False, create_csv=False):
+def get_fb_posts(start_date, end_date, mode,
+                 get_from_csv=False, create_csv=False):
     """
         Fetch Facebook posts from a given CrowdTangle list
         using the CrowdTangle API
@@ -22,7 +22,8 @@ def get_fb_posts(start_date, end_date, mode, get_from_csv=False, create_csv=Fals
 
     # temporary solution for mode not matching with
     # its related env variable name
-    if mode == 'Ministry of Health': mode = 'MOH'
+    if mode == 'Ministry of Health':
+        mode = 'MOH'
 
     api_token, list_id, posts_url = load_env_vars(mode)
 
@@ -44,7 +45,7 @@ def get_fb_posts(start_date, end_date, mode, get_from_csv=False, create_csv=Fals
         'statistics.actual.careCount', 'statistics.actual.commentCount'
     ]
     new_columns = [
-        'id', 'platform','date','type', 'message', 'link',
+        'id', 'platform', 'date', 'type', 'message', 'link',
         'like', 'share', 'love', 'wow', 'haha',
         'sad', 'angry', 'thankful', 'care', 'comment'
     ]
@@ -79,8 +80,7 @@ def get_fb_posts(start_date, end_date, mode, get_from_csv=False, create_csv=Fals
 
 
 if __name__ == "__main__":
-    start_date="2020-11-30"
-    end_date="2020-12-5"
-    mode="MOH"
+    start_date = "2020-11-30"
+    end_date = "2020-12-5"
+    mode = "MOH"
     get_fb_posts(start_date, end_date, mode, create_csv=True)
-

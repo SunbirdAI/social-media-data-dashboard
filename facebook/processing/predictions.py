@@ -1,6 +1,7 @@
 import requests
 from facebook.data.api_utils import load_prediction_api_vars
 
+
 def covid_predictions(posts):
     prediction_url = load_prediction_api_vars()
     posts_for_prediction = posts[["id", "message"]]
@@ -13,5 +14,3 @@ def covid_predictions(posts):
     params = {"text_list": posts_for_prediction.to_dict("records")}
     response = requests.post(prediction_url, json=params)
     return response.json()
-
-
