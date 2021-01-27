@@ -22,7 +22,7 @@ def display_facebook(start_date, end_date, mode):
 
     with st.beta_expander("Graphs of likes and total interactions per day"):
         st.markdown("""_Total interactions = sum of all reactions
-            (like, comment, share, love, wow, haha, care, 
+            (like, comment, share, love, wow, haha, care,
             thankful, sad, angry_)
         """)
         grouped_posts = group_post_metrics_by_date(posts)
@@ -56,7 +56,7 @@ def display_facebook(start_date, end_date, mode):
         display_covid_predictions(posts)
 
 
-def summary(number_of_posts, accounts = None):
+def summary(number_of_posts, accounts=None):
     st.write(f"Number of posts: {number_of_posts}")
     st.write(
         """
@@ -81,12 +81,12 @@ def display_post(top_posts, metric, subheader, position):
     st.markdown(
         f"""<div style='margin: 1 rem; padding: 1rem;
             border: 1px solid #eee; border-radius: 1%;'>
-                <div><strong>{metric.title()} count</strong>: 
+                <div><strong>{metric.title()} count</strong>:
                     {metric_info}
                 </div>
                 <div style='padding-top: 1rem;'>
                     <p>
-                        <strong>Post type</strong>: 
+                        <strong>Post type</strong>:
                         {post_type.title()}
                     </p>
                     <p><strong>Date</strong>: {date}</p>
@@ -99,7 +99,7 @@ def display_post(top_posts, metric, subheader, position):
     text = top_posts.at[position, "message"]
 
     st.markdown(
-        f"""<div style='margin: 1 rem; padding: 1rem; height: 400px; 
+        f"""<div style='margin: 1 rem; padding: 1rem; height: 400px;
                 border: 1px solid #eee; border-radius: 1%;'>
                 <div>{text}</div>
             </div>
@@ -117,7 +117,7 @@ def line_graph(data):
 
 
 def display_covid_predictions(posts):
-    with st.spinner('Loading predictions for COVID posts...'):
+    with st.spinner("Loading predictions for COVID posts..."):
         covid_predictions = process_covid_predicitions(posts)
 
         pred_plot, pred_table = st.beta_columns(2)
@@ -138,11 +138,3 @@ def display_covid_predictions(posts):
                 "confidence"
                 ]]
             )
-
-
-
-
-
-
-
-
