@@ -40,3 +40,4 @@ Variable | How it is used
 CROWDTANGLE_API_TOKEN | The API token from CrowdTangle that allows you to fetch data from their API
 CROWDTANGLE_*MODE*_LIST_ID | The id of the CrowdTangle list from which the posts will be fetched. Insert your mode to the *MODE* section, based on the definition of `Mode` above.
 CROWDTANGLE_POSTS_URL | The url for fetching posts. It is currently `https://api.crowdtangle.com/posts`
+DATABASE_URL | The url to a PostgreSQL database for storing tweets
