@@ -8,16 +8,16 @@ def process_posts(start_date, end_date, mode):
         Call the function that fetches posts from the API
         and do some preliminary processing on them
     """
-    # fetch posts from dummy file when testing
-    posts = get_fb_posts(
-        start_date=None,
-        end_date=None,
-        mode=None,
-        get_from_csv=True
-    )
+    ### fetch posts from dummy file when testing ###
+    # posts = get_fb_posts(
+    #     start_date=None,
+    #     end_date=None,
+    #     mode=None,
+    #     get_from_csv=True
+    # )
 
     # fetch posts from API
-    # posts = get_fb_posts(start_date, end_date, mode)
+    posts = get_fb_posts(start_date, end_date, mode)
 
     posts.sort_values(by='date', inplace=True)
     posts['date'] = posts['date'].astype('datetime64')
@@ -67,8 +67,13 @@ def group_post_metrics_by_date(posts):
 def process_covid_predicitions(posts):
     pred = covid_predictions(posts)
     pred_df = pd.json_normalize(pred)
+    pred_df.rename(
+        columns={
+            "prediction.classification": "classification",
+            "prediction.confidence": "confidence"},
+        inplace=True
+    )
     return pred_df
-
 
 
 
