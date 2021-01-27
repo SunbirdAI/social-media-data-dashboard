@@ -71,7 +71,6 @@ def get_fb_posts(start_date, end_date, mode, get_from_csv=False, create_csv=Fals
         inc_df = df[keep_columns].fillna(0)
         inc_df.columns = new_columns
         final_df = final_df.append(inc_df, ignore_index=True)
-        next_page = data['result']['pagination']['nextPage']
 
     if create_csv:
         final_df.to_csv('data/sample_fb_data.csv')
