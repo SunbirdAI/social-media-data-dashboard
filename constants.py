@@ -14,3 +14,7 @@ TITLE_TO_MODE = {
     'Influencers': 'influencers',
     'Engagers': 'engagers'
 }
+FB_TITLE_TO_MODE = {
+    'Ministry of Health': 'MOH',
+    'KCCA': 'KCCA'
+}

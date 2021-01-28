@@ -5,6 +5,7 @@ through the CrowdTangle API
 
 import pandas as pd
 import requests
+from constants import FB_TITLE_TO_MODE
 from facebook.data.api_utils import load_env_vars
 
 
@@ -20,10 +21,7 @@ def get_fb_posts(start_date, end_date, mode,
         df = pd.read_csv('data/sample_fb_data.csv', index_col=[0])
         return df
 
-    # temporary solution for mode not matching with
-    # its related env variable name
-    if mode == 'Ministry of Health':
-        mode = 'MOH'
+    mode = FB_TITLE_TO_MODE[mode]
 
     api_token, list_id, posts_url = load_env_vars(mode)
 
