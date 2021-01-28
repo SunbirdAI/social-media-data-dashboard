@@ -18,7 +18,7 @@ def display_facebook(start_date, end_date, mode):
         Display Facebook posts data
     """
     posts = process_posts(start_date, end_date, mode)
-    summary(len(posts))
+    summary(len(posts), mode)
 
     with st.beta_expander("Graphs of likes and total interactions per day"):
         st.markdown("""_Total interactions = sum of all reactions
@@ -56,12 +56,12 @@ def display_facebook(start_date, end_date, mode):
         display_covid_predictions(posts)
 
 
-def summary(number_of_posts, accounts=None):
+def summary(number_of_posts, mode):
     st.write(f"Number of posts: {number_of_posts}")
     st.write(
-        """
-        Accounts
-        - Ministry of Health Uganda
+        f"""
+        Accounts:
+        - {mode}
         """
     )
 
