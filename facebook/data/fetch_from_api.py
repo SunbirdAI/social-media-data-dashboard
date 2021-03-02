@@ -54,8 +54,11 @@ def get_fb_posts(start_date, end_date, mode,
 
     data = resp.json()
     df = pd.json_normalize(data['result']['posts'])
-    final_df = df[keep_columns].fillna(0)
-    final_df.columns = new_columns
+    if df.empty:
+        final_df = df
+    else:
+        final_df = df[keep_columns].fillna(0)
+        final_df.columns = new_columns
 
     # pagination
     while 'nextPage' in data['result']['pagination']:
@@ -64,12 +67,15 @@ def get_fb_posts(start_date, end_date, mode,
         resp = requests.get(next_page)
         if resp.status_code != 200:
             print('GET /posts/ {}'.format(resp.status_code))
-            break
+            return None
         data = resp.json()
         df = pd.json_normalize(data['result']['posts'])
-        inc_df = df[keep_columns].fillna(0)
-        inc_df.columns = new_columns
-        final_df = final_df.append(inc_df, ignore_index=True)
+        if df.empty:
+            final_df = df
+        else:
+            inc_df = df[keep_columns].fillna(0)
+            inc_df.columns = new_columns
+            final_df = final_df.append(inc_df, ignore_index=True)
 
     if create_csv:
         final_df.to_csv('data/sample_fb_data.csv')

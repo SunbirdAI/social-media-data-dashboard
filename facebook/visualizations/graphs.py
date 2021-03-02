@@ -18,6 +18,11 @@ def display_facebook(start_date, end_date, mode):
         Display Facebook posts data
     """
     posts = process_posts(start_date, end_date, mode)
+
+    if posts.empty:
+        st.write('No data for this time period')
+        return None
+
     summary(len(posts), mode)
 
     with st.beta_expander("Graphs of likes and total interactions per day"):
