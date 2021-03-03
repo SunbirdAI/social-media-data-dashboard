@@ -55,7 +55,8 @@ def display_facebook(start_date, end_date, mode):
         with post1:
             display_post(top_posts, metric, "Highest", 0)
         with post2:
-            display_post(top_posts, metric, "Second highest", 1)
+            if len(top_posts) == 2:
+                display_post(top_posts, metric, "Second highest", 1)
 
     with st.beta_expander("Covid posts"):
         display_covid_predictions(posts)

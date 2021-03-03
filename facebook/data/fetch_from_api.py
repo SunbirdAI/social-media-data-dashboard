@@ -48,12 +48,17 @@ def get_fb_posts(start_date, end_date, mode,
         'sad', 'angry', 'thankful', 'care', 'comment'
     ]
 
+    df = pd.DataFrame()
+
     resp = requests.get(posts_url, params=params)
     if resp.status_code != 200:
         print(f'GET /posts/ {resp.status_code}')
+        return df
 
     data = resp.json()
+
     df = pd.json_normalize(data['result']['posts'])
+
     if df.empty:
         final_df = df
     else:
@@ -67,7 +72,7 @@ def get_fb_posts(start_date, end_date, mode,
         resp = requests.get(next_page)
         if resp.status_code != 200:
             print('GET /posts/ {}'.format(resp.status_code))
-            return None
+            return df
         data = resp.json()
         df = pd.json_normalize(data['result']['posts'])
         if df.empty:
