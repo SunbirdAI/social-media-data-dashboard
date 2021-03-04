@@ -7,6 +7,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from facebook.processing.process_data import (
     process_posts,
+    calculate_total_interactions,
     highest_performing_posts,
     group_post_metrics_by_date,
     process_covid_predicitions
@@ -22,6 +23,8 @@ def display_facebook(start_date, end_date, mode):
     if posts.empty:
         st.write('No data for this time period')
         return None
+
+    posts = calculate_total_interactions(posts)
 
     summary(len(posts), mode)
 

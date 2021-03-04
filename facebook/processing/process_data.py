@@ -22,7 +22,6 @@ def process_posts(start_date, end_date, mode):
         posts.sort_values(by='date', inplace=True)
         posts['date'] = posts['date'].astype('datetime64')
         posts['date'] = posts['date'].dt.strftime('%b %d')
-        posts = calculate_total_interactions(posts)
 
     return posts
 
