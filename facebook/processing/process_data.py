@@ -21,7 +21,6 @@ def process_posts(start_date, end_date, mode):
     if not posts.empty:
         posts.sort_values(by='date', inplace=True)
         posts['date'] = posts['date'].astype('datetime64')
-        posts['date'] = posts['date'].dt.strftime('%b %d')
 
     return posts
 
@@ -63,7 +62,8 @@ def group_post_metrics_by_date(posts):
         left_index=True,
         right_index=True
     )
-
+    posts.index = pd.to_datetime(posts.index, format='%b %d %Y')
+    posts = posts.sort_index()
     return posts
 
 

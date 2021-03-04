@@ -33,6 +33,9 @@ def display_facebook(start_date, end_date, mode):
             (like, comment, share, love, wow, haha, care,
             thankful, sad, angry_)
         """)
+        st.markdown("""_Zoom the graph in or out to see more
+            details for the time period chosen_
+        """)
         grouped_posts = group_post_metrics_by_date(posts)
         line_graph(grouped_posts)
 
