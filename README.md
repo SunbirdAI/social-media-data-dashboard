@@ -47,5 +47,5 @@ Variable | How it is used
 DATABASE_URL | The url to a PostgreSQL database for storing tweets
 
 ## Modes
-To changes modes or add your own modes to the dashboard, go to `constants.py` in the project root folder and update the `MODES` and `TITLE_TO_MODE` dictionaries.
+To change modes or add your own modes to the dashboard, go to `constants.py` in the project root folder and update the `MODES` and `TITLE_TO_MODE` dictionaries.
 As a special case for Facebook posts, update the `FB_TITLE_TO_MODE` dictionary. Make sure that for each added mode, there is an environment variable in the .env file in the form `CROWDTANGLE_*MODE*_LIST_ID` as was explained above in `Facebook (CrowdTangle) environment variables`.
